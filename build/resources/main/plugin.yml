@@ -1,0 +1,12 @@
+name: Custom-Shop
+version: '1.0'
+main: io.plugin.customShop.Main
+api-version: '1.13'
+softdepend:
+  - Citizens
+  - Vault
+
+commands:
+  shop:
+    aliases: "상점"
+

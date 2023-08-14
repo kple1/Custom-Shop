@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'io'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+    maven {
+        name = "citizensRepo"
+        url = "https://maven.citizensnpcs.co/repo"
+    }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
+    compileOnly('net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT') {
+        exclude group: '*', module: '*'
+    }
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+}
+
+jar {
+    destinationDirectory.set(file('C:\\Users\\Leepl\\Desktop\\개발자료\\MinecraftServer\\1.20.1Dev\\plugins')) // Build Section
+}
