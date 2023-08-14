@@ -1,6 +1,5 @@
 package io.plugin.customShop.command;
 
-import io.plugin.customShop.inventory.OpenInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

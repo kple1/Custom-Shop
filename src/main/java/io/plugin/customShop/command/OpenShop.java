@@ -30,6 +30,7 @@ public class OpenShop implements CommandExecutor {
             ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
             for (String list : configSection.getKeys(false)) {
                 String getShopName = plugin.getConfig().getString("상점목록." + list);
+
                 if (Objects.equals(getShopName, args[1])) {
                     OpenInventory openInventory = new OpenInventory();
                     int size = plugin.getConfig().getInt(args[1] + ".size");
