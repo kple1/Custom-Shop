@@ -7,9 +7,11 @@ import org.bukkit.inventory.Inventory;
 
 public class EditInventory {
 
-    public void openInventory(Player player, int size, String name) {
+    public void editInventory(Player player, int size, String name, String[] args) {
         Inventory inv = Bukkit.createInventory(null, size, name);
-        inv.setItem(10, ItemBuild.getLine);
+        inv.setItem(10, ItemBuild.getLine(args));
+        inv.setItem(13, ItemBuild.itemSet());
+        inv.setItem(16, ItemBuild.itemEdit());
         player.openInventory(inv);
         return;
     }

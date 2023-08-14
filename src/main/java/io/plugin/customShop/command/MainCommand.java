@@ -1,5 +1,6 @@
 package io.plugin.customShop.command;
 
+import io.plugin.customShop.inventory.OpenInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,8 +20,9 @@ public class MainCommand implements CommandExecutor, TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                player.sendMessage("[ 명령어 사용법 ]");
+                player.sendMessage("[ Custom-Shop 명령어 사용법 ]");
                 player.sendMessage("/상점 생성 <이름>");
+                player.sendMessage("/상점 열기 <이름>");
                 player.sendMessage("/상점 편집 <이름>");
                 player.sendMessage("/상점 목록 <이름>");
                 player.sendMessage("/상점 삭제 <이름>");
@@ -30,6 +32,12 @@ public class MainCommand implements CommandExecutor, TabExecutor {
             if (args[0].equals("생성")) {
                 ShopCreate shopCreate = new ShopCreate();
                 shopCreate.onCommand(sender, command, label, args);
+                return true;
+            }
+
+            if (args[0].equals("열기")) {
+                OpenShop openShop = new OpenShop();
+                openShop.onCommand(sender, command, label, args);
                 return true;
             }
 
@@ -63,6 +71,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
 
         if (args.length == 1) {
             tabList.add("생성");
+            tabList.add("열기");
             tabList.add("편집");
             tabList.add("목록");
             tabList.add("삭제");

@@ -14,10 +14,19 @@ public class InvClickCancel implements Listener {
     public void cancelEvent(InventoryClickEvent event) {
         if (event.getClickedInventory() == null) return;
 
-        ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
-        for (String list : configSection.getKeys(false)) {
+        ConfigurationSection shopList = plugin.getConfig().getConfigurationSection("상점목록");
+        for (String list : shopList.getKeys(false)) {
             String getShopName = plugin.getConfig().getString("상점목록." + list);
-            if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase(getShopName + " 편집메뉴")) {
+            if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase(getShopName + "상점 편집메뉴")) {
+                event.setCancelled(true);
+                break;
+            }
+        }
+
+        ConfigurationSection shopNameList = plugin.getConfig().getConfigurationSection("상점목록");
+        for (String list : shopNameList.getKeys(false)) {
+            String getShopName = plugin.getConfig().getString("상점목록." + list);
+            if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase(getShopName + "상점")) {
                 event.setCancelled(true);
                 break;
             }

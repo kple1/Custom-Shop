@@ -2,6 +2,9 @@ package io.plugin.customShop;
 
 import io.plugin.customShop.command.MainCommand;
 import io.plugin.customShop.listener.InvClickCancel;
+import io.plugin.customShop.listener.ItemSaveForItemSet;
+import io.plugin.customShop.listener.ItemSet;
+import io.plugin.customShop.listener.LineEdit;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -37,6 +40,9 @@ public final class Main extends JavaPlugin {
 
     public void listener() {
         Bukkit.getPluginManager().registerEvents(new InvClickCancel(), this);
+        Bukkit.getPluginManager().registerEvents(new LineEdit(), this);
+        Bukkit.getPluginManager().registerEvents(new ItemSet(), this);
+        Bukkit.getPluginManager().registerEvents(new ItemSaveForItemSet(), this);
     }
 
     public void createPlayerDefaults() {

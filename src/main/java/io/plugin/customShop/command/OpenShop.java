@@ -1,6 +1,6 @@
 package io.plugin.customShop.command;
 
-import io.plugin.customShop.inventory.EditInventory;
+import io.plugin.customShop.inventory.OpenInventory;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +14,7 @@ import java.util.Objects;
 import static io.plugin.customShop.Main.plugin;
 import static io.plugin.customShop.Main.title;
 
-public class EditShop implements CommandExecutor {
+public class OpenShop implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -22,7 +22,7 @@ public class EditShop implements CommandExecutor {
             if (!player.isOp()) return true;
 
             if (args.length < 2 || args[1].isEmpty()) {
-                player.sendMessage(title + Color.chat("상점을 편집할 &c&l이름&f을 입력 해주세요!"));
+                player.sendMessage(title + Color.chat("상점을 오픈할 &c&l이름&f을 입력 해주세요!"));
                 return true;
             }
 
@@ -31,10 +31,11 @@ public class EditShop implements CommandExecutor {
             for (String list : configSection.getKeys(false)) {
                 String getShopName = plugin.getConfig().getString("상점목록." + list);
                 if (Objects.equals(getShopName, args[1])) {
-                    EditInventory editInventory = new EditInventory();
+                    OpenInventory openInventory = new OpenInventory();
+                    int size = plugin.getConfig().getInt(args[1] + ".size");
 
-                    editInventory.editInventory(player, 27, args[1] + Color.chat("상점 &c편집&8메뉴"), args);
-                    player.sendMessage(title + Color.chat("&c&l" + args[1] + "&f편집 창이 오픈되었습니다!"));
+                    openInventory.openInventoryToCommand(player, size, args[1] + "상점", args);
+                    player.sendMessage(title + Color.chat("&c&l" + args[1] + "&f상점이 오픈되었습니다!"));
                     found = true;
                     break;
                 }
