@@ -30,4 +30,11 @@ public class ItemBuild {
                 .setLore("  &f> 아이템에대한 &b판매 &for &c구매 &a&n가격&f을 설정합니다.")
                 .build();
     }
+
+    public static ItemStack cash(String cash) {
+        return new ItemBuilder(Material.PAPER)
+                .setName("&f[ &a" + cash + " &eCash &f]")
+                .setLore("  &f> 우클릭시 &b" + cash + "Cash&f를 얻습니다!")
+                .build();
+    }
 }

@@ -1,13 +1,13 @@
 package io.plugin.customShop;
 
+import io.plugin.customShop.bStats.Metrics;
 import io.plugin.customShop.command.MainCommand;
-import io.plugin.customShop.listener.InvClickCancel;
-import io.plugin.customShop.listener.ItemSaveForItemSet;
-import io.plugin.customShop.listener.ItemSet;
-import io.plugin.customShop.listener.LineEdit;
+import io.plugin.customShop.listener.*;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -24,9 +24,11 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.saveConfig();
         command();
         listener();
         plugin = this;
+        new Metrics(this, 19558);
     }
 
     @Override
@@ -43,6 +45,8 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new LineEdit(), this);
         Bukkit.getPluginManager().registerEvents(new ItemSet(), this);
         Bukkit.getPluginManager().registerEvents(new ItemSaveForItemSet(), this);
+        Bukkit.getPluginManager().registerEvents(new ItemPriceBuySetting(), this);
+        Bukkit.getPluginManager().registerEvents(new CashSet(), this);
     }
 
     public void createPlayerDefaults() {
@@ -69,6 +73,12 @@ public final class Main extends JavaPlugin {
             nextAvailableIndex++;
         }
         return nextAvailableIndex;
+    }
+
+    public void removeItemsFromMainHand(Player player, int amountToRemove) {
+        int getAmount = player.getInventory().getItemInMainHand().getAmount();
+        int itemAmountSet = getAmount - amountToRemove;
+        player.getInventory().getItemInMainHand().setAmount(itemAmountSet);
     }
 
     public static Main getPlugin() {

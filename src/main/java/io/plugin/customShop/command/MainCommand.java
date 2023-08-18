@@ -55,6 +55,12 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                 //TODO
                 return true;
             }
+
+            if (args[0].equals("캐쉬발급")) {
+                CashIssued cashIssued = new CashIssued();
+                cashIssued.onCommand(sender, command, label, args);
+                return true;
+            }
         }
         return false;
     }
@@ -74,6 +80,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
             tabList.add("편집");
             tabList.add("목록");
             tabList.add("삭제");
+            tabList.add("캐쉬발급");
             return StringUtil.copyPartialMatches(args[0], tabList, new ArrayList<>());
         }
         return tabList;
