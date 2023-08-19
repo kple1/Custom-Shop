@@ -27,7 +27,7 @@ public class ItemPriceBuySetting implements Listener {
                 if (event.getSlot() == 16) {
                     if (event.getClick().isLeftClick()) {
                         OpenInventory openInventory = new OpenInventory();
-                        openInventory.openInventoryToItemSet(player, size, getShopName);
+                        openInventory.openInventoryToPriceAndSellSettings(player, size, getShopName);
                         return;
                     }
                 }

@@ -29,8 +29,8 @@ public class CashSet implements Listener {
 
         if (!extractedNumbers.isEmpty()) {
             int cashValue = Integer.parseInt(extractedNumbers);
-
             Main.getPlugin().removeItemsFromMainHand(player, 1);
+
             int getCash = config.getInt("cash");
             config.set("cash", getCash + cashValue);
             Main.getPlugin().saveYamlConfiguration();

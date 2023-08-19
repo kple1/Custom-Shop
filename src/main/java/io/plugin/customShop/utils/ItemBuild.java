@@ -37,4 +37,22 @@ public class ItemBuild {
                 .setLore("  &f> 우클릭시 &b" + cash + "Cash&f를 얻습니다!")
                 .build();
     }
+
+    public static ItemStack cashItem() {
+        return new ItemBuilder(Material.GOLD_INGOT)
+                .setName("[ Cash Setting ]")
+                .build();
+    }
+
+    public static ItemStack moneyItem() {
+        return new ItemBuilder(Material.GOLD_NUGGET)
+                .setName("[ Money Setting ]")
+                .build();
+    }
+
+    public static ItemStack priceSet() {
+        return new ItemBuilder(Material.EMERALD)
+                .setName("[ Price Setting ]")
+                .build();
+    }
 }

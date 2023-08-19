@@ -47,6 +47,9 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ItemSaveForItemSet(), this);
         Bukkit.getPluginManager().registerEvents(new ItemPriceBuySetting(), this);
         Bukkit.getPluginManager().registerEvents(new CashSet(), this);
+        Bukkit.getPluginManager().registerEvents(new ItemSettingOpen(), this);
+        Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PriceSettingClick(), this);
     }
 
     public void createPlayerDefaults() {

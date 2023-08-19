@@ -21,12 +21,18 @@ public class InvClickCancel implements Listener {
                 event.setCancelled(true);
                 break;
             }
-        }
 
-        ConfigurationSection shopNameList = plugin.getConfig().getConfigurationSection("상점목록");
-        for (String list : shopNameList.getKeys(false)) {
-            String getShopName = plugin.getConfig().getString("상점목록." + list);
             if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase(getShopName + "상점")) {
+                event.setCancelled(true);
+                break;
+            }
+
+            if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase(getShopName + "상점 구매&판매설정")) {
+                event.setCancelled(true);
+                break;
+            }
+
+            if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase("가격설정")) {
                 event.setCancelled(true);
                 break;
             }
