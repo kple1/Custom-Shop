@@ -13,14 +13,12 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.RegisteredServiceProvider;
 
 import static io.plugin.customShop.Main.plugin;
 import static io.plugin.customShop.Main.title;
 
 public class ChatListener implements Listener {
     private Inventory inv;
-    private Economy economy;
 
     public ChatListener() {}
 
@@ -34,7 +32,6 @@ public class ChatListener implements Listener {
             if (!isNumeric(message)) {
                 return;
             }
-
             ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
             for (String list : configSection.getKeys(false)) {
                 int slot = config.getInt("saveSlot");
