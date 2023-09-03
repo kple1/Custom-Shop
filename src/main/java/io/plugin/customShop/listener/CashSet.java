@@ -1,9 +1,7 @@
-package io.plugin.customShop.Cash;
+package io.plugin.customShop.listener;
 
 import io.plugin.customShop.Main;
-import io.plugin.customShop.config.UserConfig;
 import io.plugin.customShop.utils.Color;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,12 +10,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.plugin.customShop.Cash.CashCenter.userMoney;
 import static io.plugin.customShop.Main.title;
+import static io.plugin.customShop.Main.userMoney;
 
 public class CashSet implements Listener {
 

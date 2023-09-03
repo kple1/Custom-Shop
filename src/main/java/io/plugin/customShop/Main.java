@@ -1,6 +1,6 @@
 package io.plugin.customShop;
 
-import io.plugin.customShop.Cash.CashSet;
+import io.plugin.customShop.listener.CashSet;
 import io.plugin.customShop.bStats.Metrics;
 import io.plugin.customShop.command.CommandCenter;
 import io.plugin.customShop.listener.*;
@@ -12,6 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.UUID;
 
 import static io.plugin.customShop.config.UserConfig.config;
 import static io.plugin.customShop.config.UserConfig.playerFile;
@@ -21,6 +23,7 @@ public final class Main extends JavaPlugin {
     public static Main plugin;
     public static File uuidFolder;
     public static String title = Color.chat("&f[ &aShop &f] ");
+    public static HashMap<UUID, Integer> userMoney = new HashMap<>();
 
     @Override
     public void onEnable() {
