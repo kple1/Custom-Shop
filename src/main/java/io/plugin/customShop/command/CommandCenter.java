@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainCommand implements CommandExecutor, TabExecutor {
+public class CommandCenter implements CommandExecutor, TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -29,20 +29,17 @@ public class MainCommand implements CommandExecutor, TabExecutor {
             }
 
             if (args[0].equals("생성")) {
-                ShopCreate shopCreate = new ShopCreate();
-                shopCreate.onCommand(sender, command, label, args);
+                StoreManagement.ShopCreate.onCommand(sender, args);
                 return true;
             }
 
             if (args[0].equals("열기")) {
-                OpenShop openShop = new OpenShop();
-                openShop.onCommand(sender, command, label, args);
+                StoreManagement.OpenShop.onCommand(sender, args);
                 return true;
             }
 
             if (args[0].equals("편집")) {
-                EditShop editShop = new EditShop();
-                editShop.onCommand(sender, command, label, args);
+                StoreManagement.EditShop.onCommand(sender, args);
                 return true;
             }
 
@@ -57,8 +54,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
             }
 
             if (args[0].equals("캐쉬발급")) {
-                CashIssued cashIssued = new CashIssued();
-                cashIssued.onCommand(sender, command, label, args);
+                StoreManagement.CashIssued.onCommand(sender, args);
                 return true;
             }
         }

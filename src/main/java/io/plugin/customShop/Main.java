@@ -1,13 +1,12 @@
 package io.plugin.customShop;
 
 import io.plugin.customShop.bStats.Metrics;
-import io.plugin.customShop.command.MainCommand;
+import io.plugin.customShop.command.CommandCenter;
 import io.plugin.customShop.listener.*;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -37,7 +36,7 @@ public final class Main extends JavaPlugin {
     }
 
     public void command() {
-        Bukkit.getPluginCommand("shop").setExecutor(new MainCommand());
+        Bukkit.getPluginCommand("shop").setExecutor(new CommandCenter());
     }
 
     public void listener() {

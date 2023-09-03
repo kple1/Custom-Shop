@@ -1,6 +1,6 @@
 package io.plugin.customShop.listener;
 
-import io.plugin.customShop.inventory.OpenInventory;
+import io.plugin.customShop.inventory.InventoryManager;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -26,8 +26,7 @@ public class ItemPriceBuySetting implements Listener {
 
                 if (event.getSlot() == 16) {
                     if (event.getClick().isLeftClick()) {
-                        OpenInventory openInventory = new OpenInventory();
-                        openInventory.openInventoryToPriceAndSellSettings(player, size, getShopName);
+                        InventoryManager.openInventory(player, size, getShopName + "상점 구매&판매설정");
                         return;
                     }
                 }

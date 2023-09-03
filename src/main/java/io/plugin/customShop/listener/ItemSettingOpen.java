@@ -1,6 +1,6 @@
 package io.plugin.customShop.listener;
 
-import io.plugin.customShop.inventory.OpenInventory;
+import io.plugin.customShop.inventory.InventoryManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -33,8 +33,7 @@ public class ItemSettingOpen implements Listener {
                     plugin.getConfig().set("saveSlot", event.getSlot());
                     plugin.saveConfig();
 
-                    OpenInventory openInventory = new OpenInventory();
-                    openInventory.itemFix(player);
+                    InventoryManager.itemFix(player);
                     return;
                 }
             }

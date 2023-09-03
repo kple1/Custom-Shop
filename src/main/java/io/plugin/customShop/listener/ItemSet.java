@@ -1,6 +1,6 @@
 package io.plugin.customShop.listener;
 
-import io.plugin.customShop.inventory.OpenInventory;
+import io.plugin.customShop.inventory.InventoryManager;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -22,11 +22,10 @@ public class ItemSet implements Listener {
 
             String getShopName = plugin.getConfig().getString("상점목록." + list);
             int size = plugin.getConfig().getInt(getShopName + ".size");
-            OpenInventory openInventory = new OpenInventory();
 
             if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase(getShopName + "상점 편집메뉴")) {
                 if (event.getSlot() == 13 && event.getClick().isLeftClick()) {
-                    openInventory.openInventoryToItemSet(player, size, getShopName);
+                    InventoryManager.openInventory(player, size, getShopName);
                     player.sendMessage(title + "아이템 설정 창이 오픈되었습니다!");
                     return;
                 }

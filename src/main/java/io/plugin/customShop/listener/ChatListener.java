@@ -1,10 +1,7 @@
 package io.plugin.customShop.listener;
 
-import io.plugin.customShop.Main;
 import io.plugin.customShop.config.UserConfig;
-import io.plugin.customShop.inventory.OpenInventory;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
+import io.plugin.customShop.inventory.InventoryManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -18,7 +15,6 @@ import static io.plugin.customShop.Main.plugin;
 import static io.plugin.customShop.Main.title;
 
 public class ChatListener implements Listener {
-    private Inventory inv;
 
     public ChatListener() {}
 
@@ -41,8 +37,7 @@ public class ChatListener implements Listener {
                 plugin.saveConfig();
                 getMessagePlayer.sendMessage(title + "가격설정이 완료되었습니다!");
 
-                OpenInventory openInventory = new OpenInventory();
-                openInventory.itemFix(getMessagePlayer);
+                InventoryManager.itemFix(getMessagePlayer);
                 event.setCancelled(true);
                 break;
             }
