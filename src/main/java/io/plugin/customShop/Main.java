@@ -1,5 +1,6 @@
 package io.plugin.customShop;
 
+import io.plugin.customShop.Cash.CashSet;
 import io.plugin.customShop.bStats.Metrics;
 import io.plugin.customShop.command.CommandCenter;
 import io.plugin.customShop.listener.*;

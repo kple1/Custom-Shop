@@ -25,8 +25,7 @@ public class StoreManagement {
     }
 
     public static class DeleteShop {
-        public static void onCommand(CommandSender sender, String[] args) {
-        }
+        public static void onCommand(CommandSender sender, String[] args) {}
     }
 
     public static class EditShop {
@@ -101,6 +100,11 @@ public class StoreManagement {
                 }
 
                 ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
+                if (configSection == null) {
+                    serviceNormalShopSetting(player, args);
+                    return;
+                }
+
                 for (String list : configSection.getKeys(false)) {
                     String getShopName = plugin.getConfig().getString("상점목록." + list);
                     if (Objects.equals(getShopName, args[1])) {
@@ -108,13 +112,16 @@ public class StoreManagement {
                         return;
                     }
                 }
-
-                int nextAvailableIndex = Main.getPlugin().getNextAvailableIndex();
-                plugin.getConfig().set("상점목록." + nextAvailableIndex, args[1]);
-                plugin.getConfig().set(args[1] + ".size", 27); //상점 생성시 기본값으로 설정되는 크기
-                plugin.saveConfig();
-                player.sendMessage(title + Color.chat("&c&l" + args[1] + "&f상점이 생성되었습니다!"));
+                serviceNormalShopSetting(player, args);
             }
+        }
+
+        public static void serviceNormalShopSetting(Player player, String[] args) {
+            int nextAvailableIndex = Main.getPlugin().getNextAvailableIndex();
+            plugin.getConfig().set("상점목록." + nextAvailableIndex, args[1]);
+            plugin.getConfig().set(args[1] + ".size", 27); //상점 생성시 기본값으로 설정되는 크기
+            plugin.saveConfig();
+            player.sendMessage(title + Color.chat("&c&l" + args[1] + "&f상점이 생성되었습니다!"));
         }
     }
 
