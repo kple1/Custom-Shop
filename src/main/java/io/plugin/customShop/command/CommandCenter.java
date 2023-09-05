@@ -64,6 +64,7 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
             tabList.add("삭제");
             tabList.add("캐쉬발급");
             tabList.add("dataSave");
+            tabList.add("testSave");
             return StringUtil.copyPartialMatches(args[0], tabList, new ArrayList<>());
         }
         return tabList;

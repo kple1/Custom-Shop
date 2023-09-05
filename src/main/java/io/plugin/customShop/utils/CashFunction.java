@@ -1,5 +1,9 @@
 package io.plugin.customShop.utils;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
