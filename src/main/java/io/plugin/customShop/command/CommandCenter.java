@@ -1,5 +1,6 @@
 package io.plugin.customShop.command;
 
+import io.plugin.customShop.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static io.plugin.customShop.Main.title;
 
 public class CommandCenter implements CommandExecutor, TabExecutor {
 
@@ -54,8 +57,13 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
             }
 
             if (args[0].equals("캐쉬발급")) {
-                StoreManagement.CashIssued.onCommand(sender, args);
+                CashIssued.onCommand(sender, args);
                 return true;
+            }
+
+            if (args[0].equals("dataSave")) {
+                Main.getPlugin().allPlayerSaveData();
+                player.sendMessage(title + "데이터가 저장되었습니다.");
             }
         }
         return false;
@@ -77,6 +85,7 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
             tabList.add("목록");
             tabList.add("삭제");
             tabList.add("캐쉬발급");
+            tabList.add("dataSave");
             return StringUtil.copyPartialMatches(args[0], tabList, new ArrayList<>());
         }
         return tabList;

@@ -10,25 +10,19 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Map;
 import java.util.UUID;
 
 import static io.plugin.customShop.Main.title;
-import static io.plugin.customShop.Main.userMoney;
+import static io.plugin.customShop.utils.CashFunction.cashAdd;
+import static io.plugin.customShop.utils.CashFunction.getCash;
 
-public class CashSet implements Listener {
+public class RightClickGetCash implements Listener {
 
     @EventHandler
     public void cashSet(PlayerInteractEvent event) {
-
-        int getMoney = 0;
-        for (Map.Entry<UUID, Integer> pair : userMoney.entrySet()) {
-            getMoney = pair.getValue();
-        }
-
         Player player = event.getPlayer();
-        UUID getUUID = player.getUniqueId();
-        //YamlConfiguration config = UserConfig.getPlayerConfig(player);
+        UUID playerUUID = player.getUniqueId();
+
         ItemStack itemInHand = player.getInventory().getItemInMainHand();
         ItemMeta itemMeta = itemInHand.getItemMeta();
 
@@ -39,15 +33,12 @@ public class CashSet implements Listener {
         String extractedNumbers = key.replaceAll("\\D", "");
 
         if (!extractedNumbers.isEmpty()) {
-            int cashValue = Integer.parseInt(extractedNumbers);
-            Main.getPlugin().removeItemsFromMainHand(player, 1);
+            int cashValue = Integer.parseInt(extractedNumbers); //추가할 돈 가져오기
+            Main.getPlugin().removeItemsFromMainHand(player, 1); //사용한 아이템 삭제
 
-            userMoney.put(getUUID, getMoney + cashValue);
+            cashAdd(playerUUID, cashValue); //돈 추가
             player.sendMessage(title + Color.chat("캐쉬가 발급 되었습니다!"));
-            player.sendMessage(title + Color.chat("현재 잔액: " + getMoney));
-            //int getCash = config.getInt("cash");
-            //config.set("cash", getCash + cashValue);
-            //Main.getPlugin().saveYamlConfiguration();
+            player.sendMessage(title + Color.chat("현재 잔액: " + getCash(playerUUID))); // 플레이어의 현재 돈 출력
         }
     }
 }

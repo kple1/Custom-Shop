@@ -1,41 +1,70 @@
 package io.plugin.customShop;
 
-import io.plugin.customShop.listener.CashSet;
+import io.plugin.customShop.config.UserConfig;
+import io.plugin.customShop.listener.RightClickGetCash;
 import io.plugin.customShop.bStats.Metrics;
 import io.plugin.customShop.command.CommandCenter;
 import io.plugin.customShop.listener.*;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 import static io.plugin.customShop.config.UserConfig.config;
 import static io.plugin.customShop.config.UserConfig.playerFile;
+import static io.plugin.customShop.utils.CashFunction.getCash;
+import static io.plugin.customShop.utils.CashFunction.userMoney;
 
 public final class Main extends JavaPlugin {
 
     public static Main plugin;
     public static File uuidFolder;
     public static String title = Color.chat("&f[ &aShop &f] ");
-    public static HashMap<UUID, Integer> userMoney = new HashMap<>();
+
+    public void allPlayerSaveData() {
+        Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
+        for (Player player : onlinePlayers) {
+            YamlConfiguration config = UserConfig.getPlayerConfig(player);
+            UUID getPayerUUID = player.getUniqueId();
+            for (Map.Entry<UUID, Integer> pair : userMoney.entrySet()) {
+                config.set("cash", getCash(getPayerUUID));
+            }
+        }
+        this.saveYamlConfiguration();
+
+        OfflinePlayer[] offlinePlayers = Bukkit.getServer().getOfflinePlayers();
+        for (OfflinePlayer player : offlinePlayers) {
+            if (!player.isOnline()) {
+                YamlConfiguration config = UserConfig.getPlayerConfig(player);
+                UUID getPayerUUID = player.getUniqueId();
+                for (Map.Entry<UUID, Integer> pair : userMoney.entrySet()) {
+                    config.set("cash", getCash(getPayerUUID));
+                }
+            }
+        }
+        this.saveYamlConfiguration();
+    }
 
     @Override
     public void onEnable() {
         this.saveConfig();
-        command();
-        listener();
+        this.command();
+        this.listener();
         plugin = this;
         new Metrics(this, 19558);
     }
 
     @Override
     public void onDisable() {
+        this.allPlayerSaveData();
         saveDefaultConfig();
     }
 
@@ -49,7 +78,7 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ItemSet(), this);
         Bukkit.getPluginManager().registerEvents(new ItemSaveForItemSet(), this);
         Bukkit.getPluginManager().registerEvents(new ItemPriceBuySetting(), this);
-        Bukkit.getPluginManager().registerEvents(new CashSet(), this);
+        Bukkit.getPluginManager().registerEvents(new RightClickGetCash(), this);
         Bukkit.getPluginManager().registerEvents(new ItemSettingOpen(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         Bukkit.getPluginManager().registerEvents(new PriceSettingClick(), this);

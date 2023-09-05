@@ -15,15 +15,6 @@ import static io.plugin.customShop.Main.title;
 
 public class StoreManagement {
 
-    public static class CashIssued {
-        public static void onCommand(CommandSender sender, String[] args) {
-            if (sender instanceof Player player) {
-                if (!player.isOp()) return;
-                player.getInventory().addItem(ItemBuild.cash(args[1]));
-            }
-        }
-    }
-
     public static class DeleteShop {
         public static void onCommand(CommandSender sender, String[] args) {}
     }
