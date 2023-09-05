@@ -31,39 +31,17 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
                 return true;
             }
 
-            if (args[0].equals("생성")) {
-                StoreManagement.ShopCreate.onCommand(sender, args);
-                return true;
-            }
-
-            if (args[0].equals("열기")) {
-                StoreManagement.OpenShop.onCommand(sender, args);
-                return true;
-            }
-
-            if (args[0].equals("편집")) {
-                StoreManagement.EditShop.onCommand(sender, args);
-                return true;
-            }
-
-            if (args[0].equals("목록")) {
-                //TODO
-                return true;
-            }
-
-            if (args[0].equals("삭제")) {
-                //TODO
-                return true;
-            }
-
-            if (args[0].equals("캐쉬발급")) {
-                CashIssued.onCommand(sender, args);
-                return true;
-            }
-
-            if (args[0].equals("dataSave")) {
-                Main.getPlugin().allPlayerSaveData();
-                player.sendMessage(title + "데이터가 저장되었습니다.");
+            switch (args[0]) {
+                case "생성" -> StoreManagement.ShopCreate.onCommand(sender, args);
+                case "열기" -> StoreManagement.OpenShop.onCommand(sender, args);
+                case "편집" -> StoreManagement.EditShop.onCommand(sender, args);
+                case "목록" -> StoreManagement.ShopList.onCommand(sender, args);
+                case "삭제" -> StoreManagement.DeleteShop.onCommand(sender, args);
+                case "캐쉬발급" -> CashIssued.onCommand(sender, args);
+                case "dataSave" -> {
+                    Main.getPlugin().allPlayerSaveData();
+                    player.sendMessage(title + "데이터가 저장되었습니다.");
+                }
             }
         }
         return false;
