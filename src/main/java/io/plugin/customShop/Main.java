@@ -7,6 +7,7 @@ import io.plugin.customShop.command.CommandCenter;
 import io.plugin.customShop.listener.*;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +20,7 @@ import java.util.UUID;
 import static io.plugin.customShop.config.UserConfig.config;
 import static io.plugin.customShop.config.UserConfig.playerFile;
 import static io.plugin.customShop.utils.CashFunction.getCash;
+import static io.plugin.customShop.utils.CashFunction.userMoney;
 
 public final class Main extends JavaPlugin {
 
@@ -26,35 +28,57 @@ public final class Main extends JavaPlugin {
     public static File uuidFolder;
     public static String title = Color.chat("&f[ &aShop &f] ");
 
+    private void getCashData() {
+        Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
+        for (Player player : onlinePlayers) {
+            YamlConfiguration config = UserConfig.getPlayerConfig(player);
+            UUID uuid = player.getUniqueId();
+            userMoney.put(uuid, config.getInt("cash"));
+        }
+
+        OfflinePlayer[] offlinePlayers = Bukkit.getServer().getOfflinePlayers();
+        for (OfflinePlayer player : offlinePlayers) {
+            if (!player.isOnline()) {
+                YamlConfiguration config = UserConfig.getPlayerConfig(player);
+                UUID uuid = player.getUniqueId();
+                userMoney.put(uuid, config.getInt("cash"));
+            }
+        }
+    }
+
     public void allPlayerSaveData() {
         Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
         for (Player player : onlinePlayers) {
             UUID playerUUID = player.getUniqueId();
             YamlConfiguration config = UserConfig.getPlayerConfig(player);
             config.set("cash", getCash(playerUUID));
+            this.saveYamlConfiguration();
         }
-        this.saveYamlConfiguration();
 
-
-        /*OfflinePlayer[] offlinePlayers = Bukkit.getServer().getOfflinePlayers();
+        OfflinePlayer[] offlinePlayers = Bukkit.getServer().getOfflinePlayers();
         for (OfflinePlayer player : offlinePlayers) {
             if (!player.isOnline()) {
                 YamlConfiguration config = UserConfig.getPlayerConfig(player);
                 UUID getPayerUUID = player.getUniqueId();
-                //for (Map.Entry<UUID, Integer> pair : userMoney.entrySet()) {}
                 config.set("cash", getCash(getPayerUUID));
+                this.saveYamlConfiguration();
             }
         }
-        this.saveYamlConfiguration();*/
     }
 
     @Override
     public void onEnable() {
+        //function
         this.saveConfig();
         this.command();
         this.listener();
-        plugin = this;
+
+        //get User Cash Data
+        getCashData();
+
+        //instance
         new Metrics(this, 19558);
+        plugin = this;
     }
 
     @Override

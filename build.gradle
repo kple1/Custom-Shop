@@ -28,6 +28,7 @@ dependencies {
         exclude group: '*', module: '*'
     }
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    implementation group: 'org.stagemonitor', name: 'stagemonitor-tracing', version: '0.89.1'
 }
 
 jar {
