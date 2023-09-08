@@ -1,7 +1,6 @@
 package io.plugin.customShop;
 
 import io.plugin.customShop.config.UserConfig;
-import io.plugin.customShop.listener.RightClickGetCash;
 import io.plugin.customShop.bStats.Metrics;
 import io.plugin.customShop.command.CommandCenter;
 import io.plugin.customShop.listener.*;
@@ -12,7 +11,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.UUID;
@@ -25,7 +23,6 @@ import static io.plugin.customShop.utils.CashFunction.userMoney;
 public final class Main extends JavaPlugin {
 
     public static Main plugin;
-    public static File uuidFolder;
     public static String title = Color.chat("&f[ &aShop &f] ");
 
     private void getCashData() {
@@ -92,21 +89,8 @@ public final class Main extends JavaPlugin {
     }
 
     public void listener() {
-        Bukkit.getPluginManager().registerEvents(new InvClickCancel(), this);
-        Bukkit.getPluginManager().registerEvents(new LineEdit(), this);
-        Bukkit.getPluginManager().registerEvents(new ItemSet(), this);
-        Bukkit.getPluginManager().registerEvents(new ItemSaveForItemSet(), this);
-        Bukkit.getPluginManager().registerEvents(new ItemPriceBuySetting(), this);
-        Bukkit.getPluginManager().registerEvents(new RightClickGetCash(), this);
-        Bukkit.getPluginManager().registerEvents(new ItemSettingOpen(), this);
-        Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PriceSettingClick(), this);
-    }
-
-    public void createPlayerDefaults() {
-        YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-        playerConfig.options().copyDefaults(true);
-        saveYamlConfiguration();
+        Bukkit.getPluginManager().registerEvents(new ShopItemClickCancel(), this);
+        ShopMainCenter.registerListeners();
     }
 
     public void saveYamlConfiguration() {
@@ -115,10 +99,6 @@ public final class Main extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public File getUuidFolder() {
-        return uuidFolder;
     }
 
     public int getNextAvailableIndex() {

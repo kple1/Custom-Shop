@@ -8,7 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import static io.plugin.customShop.Main.plugin;
 
-public class InvClickCancel implements Listener {
+public class ShopItemClickCancel implements Listener {
 
     @EventHandler
     public void cancelEvent(InventoryClickEvent event) {
