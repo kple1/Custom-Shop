@@ -90,7 +90,7 @@ public final class Main extends JavaPlugin {
 
     public void listener() {
         Bukkit.getPluginManager().registerEvents(new ShopItemClickCancel(), this);
-        ShopMainCenter.registerListeners();
+        ShopMainCenter.registerListeners(this);
     }
 
     public void saveYamlConfiguration() {

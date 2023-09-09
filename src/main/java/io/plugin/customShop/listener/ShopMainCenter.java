@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 import java.util.UUID;
 
@@ -29,14 +30,14 @@ import static io.plugin.customShop.utils.CashFunction.cashAdd;
 import static io.plugin.customShop.utils.CashFunction.getCash;
 
 public class ShopMainCenter {
-    public static void registerListeners() {
-        Bukkit.getPluginManager().registerEvents(new ServiceGetCash(), Main.getPlugin());
-        Bukkit.getPluginManager().registerEvents(new ServiceItemPriceSetting(), Main.getPlugin());
-        Bukkit.getPluginManager().registerEvents(new ServiceItemSettingInvOpen(), Main.getPlugin());
-        Bukkit.getPluginManager().registerEvents(new ServicePriceSetting(), Main.getPlugin());
-        Bukkit.getPluginManager().registerEvents(new ServiceRegistrationItem(), Main.getPlugin());
-        Bukkit.getPluginManager().registerEvents(new ServiceSaveShopSettingsItem(), Main.getPlugin());
-        Bukkit.getPluginManager().registerEvents(new ServiceShopLineEdit(), Main.getPlugin());
+    public static void registerListeners(Plugin plugin) {
+        Bukkit.getPluginManager().registerEvents(new ServiceGetCash(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServiceItemPriceSetting(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServiceItemSettingInvOpen(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServicePriceSetting(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServiceRegistrationItem(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServiceSaveShopSettingsItem(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServiceShopLineEdit(), plugin);
     }
 }
 
