@@ -1,70 +1,39 @@
 package io.plugin.customShop.listener;
 
-import io.plugin.customShop.Main;
-import io.plugin.customShop.config.UserConfig;
 import io.plugin.customShop.inventory.InventoryManager;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 import static io.plugin.customShop.Main.plugin;
 import static io.plugin.customShop.Main.title;
-import static io.plugin.customShop.utils.CashFunction.cashAdd;
-import static io.plugin.customShop.utils.CashFunction.getCash;
 
 public class ShopMainCenter {
+
+    public static Map<String, String> changeEcoSetting = new HashMap<>();
+
     public static void registerListeners(Plugin plugin) {
-        Bukkit.getPluginManager().registerEvents(new ServiceGetCash(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceItemPriceSetting(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceItemSettingInvOpen(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServicePriceSetting(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceRegistrationItem(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceSaveShopSettingsItem(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceShopLineEdit(), plugin);
-    }
-}
-
-class ServiceGetCash implements Listener {
-
-    @EventHandler
-    public void cashSet(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        UUID playerUUID = player.getUniqueId();
-
-        ItemStack itemInHand = player.getInventory().getItemInMainHand();
-        ItemMeta itemMeta = itemInHand.getItemMeta();
-
-        if (!(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
-        if (!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
-
-        String key = itemMeta.getDisplayName();
-        String extractedNumbers = key.replaceAll("\\D", "");
-
-        if (!extractedNumbers.isEmpty()) {
-            int cashValue = Integer.parseInt(extractedNumbers); //추가할 돈 가져오기
-            Main.getPlugin().removeItemsFromMainHand(player, 1); //사용한 아이템 삭제
-
-            cashAdd(playerUUID, cashValue); //돈 추가
-            player.sendMessage(title + Color.chat("캐쉬가 발급 되었습니다!"));
-            player.sendMessage(title + Color.chat("현재 잔액: " + getCash(playerUUID))); // 플레이어의 현재 돈 출력
-        }
+        Bukkit.getPluginManager().registerEvents(new ServiceChangeEconomy(), plugin);
     }
 }
 
@@ -84,7 +53,7 @@ class ServiceItemPriceSetting implements Listener {
 
                 if (event.getSlot() == 16) {
                     if (event.getClick().isLeftClick()) {
-                        InventoryManager.openInventory(player, size, getShopName + "상점 구매&판매설정");
+                        InventoryManager.openInventory(player, size, getShopName, "상점 구매&판매설정");
                         return;
                     }
                 }
@@ -94,6 +63,8 @@ class ServiceItemPriceSetting implements Listener {
 }
 
 class ServiceItemSettingInvOpen implements Listener {
+
+    public static Map<String, Integer> saveSlot = new HashMap<>();
 
     @EventHandler
     public void itemSellPriceItemClickToOpenSetting(InventoryClickEvent event) {
@@ -113,8 +84,7 @@ class ServiceItemSettingInvOpen implements Listener {
 
             for (int i = 0; i < event.getInventory().getSize(); i++) {
                 if (event.getSlot() == i) {
-                    plugin.getConfig().set("saveSlot", event.getSlot());
-                    plugin.saveConfig();
+                    saveSlot.put("saveSlot", event.getSlot());
 
                     InventoryManager.itemFix(player);
                     return;
@@ -129,16 +99,17 @@ class ServicePriceSetting implements Listener {
     public ServicePriceSetting() {
     }
 
+    private static final String INVENTORY_TITLE = "가격설정";
+
     //가격설정을 위한 설정창에서 아이템 클릭
     @EventHandler
     public void priceSettingClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (event.getView().getTitle().equals("가격설정")) {
-            if (event.getSlot() == 16) {
-                player.closeInventory();
-                player.sendMessage(title + "채팅에 가격을 입력 해주세요.");
-                Bukkit.getPluginManager().registerEvents(new ServicePriceSetting(), plugin);
-            }
+        if (!event.getView().getTitle().equals(INVENTORY_TITLE)) return;
+        if (event.getSlot() == 16 && event.getClick().isLeftClick()) {
+            player.closeInventory();
+            player.sendMessage(title + "채팅에 가격을 입력 해주세요.");
+            Bukkit.getPluginManager().registerEvents(new ServicePriceSetting(), plugin);
         }
     }
 
@@ -147,28 +118,28 @@ class ServicePriceSetting implements Listener {
     public void onChat(PlayerChatEvent event) {
         Player getMessagePlayer = event.getPlayer();
         String message = event.getMessage();
-        YamlConfiguration config = UserConfig.getPlayerConfig(getMessagePlayer);
 
         if (!message.isEmpty()) {
             if (!isNumeric(message)) {
                 return;
             }
+
+            boolean found = false;
             ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
             for (String list : configSection.getKeys(false)) {
-                int slot = config.getInt("saveSlot");
                 String getShopName = plugin.getConfig().getString("상점목록." + list);
-
-                plugin.getConfig().set(getShopName + "." + slot + ".buy", message);
+                plugin.getConfig().set(getShopName + "." + ServiceItemSettingInvOpen.saveSlot.get("saveSlot") + ".buy", message);
                 plugin.saveConfig();
-                getMessagePlayer.sendMessage(title + "가격설정이 완료되었습니다!");
-
-                InventoryManager.itemFix(getMessagePlayer);
-                event.setCancelled(true);
                 break;
             }
+
+            if (!found) {
+                InventoryManager.itemFix(getMessagePlayer);
+                getMessagePlayer.sendMessage(title + "가격설정이 완료되었습니다!");
+            }
+            HandlerList.unregisterAll(this);
+            event.setCancelled(true);
         }
-        HandlerList.unregisterAll(this);
-        event.setCancelled(true);
     }
 
     private boolean isNumeric(String str) {
@@ -195,7 +166,7 @@ class ServiceRegistrationItem implements Listener {
 
             if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase(getShopName + "상점 편집메뉴")) {
                 if (event.getSlot() == 13 && event.getClick().isLeftClick()) {
-                    InventoryManager.openInventory(player, size, getShopName);
+                    InventoryManager.openInventory(player, size, getShopName, "");
                     player.sendMessage(title + "아이템 설정 창이 오픈되었습니다!");
                     return;
                 }
@@ -272,6 +243,25 @@ class ServiceShopLineEdit implements Listener {
                         return;
                     }
                 }
+            }
+        }
+    }
+}
+
+class ServiceChangeEconomy implements Listener {
+
+    @EventHandler
+    public void changeCashOrMoney(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        if (!event.getView().getTitle().equals("가격설정")) return;
+        if (event.getSlot() == 10 || event.getClick().isLeftClick()) {
+            ShopMainCenter.changeEcoSetting.putIfAbsent("changeEcoSetting", "Cash");
+            if (ShopMainCenter.changeEcoSetting.get("changeEcoSetting").equals("Cash")) {
+                ShopMainCenter.changeEcoSetting.put("changeEcoSetting", "Money");
+                player.sendMessage(title + Color.chat("&6Money&f로 변경되었습니다."));
+            } else if (ShopMainCenter.changeEcoSetting.get("changeEcoSetting").equals("Money")) {
+                ShopMainCenter.changeEcoSetting.put("changeEcoSetting", "Cash");
+                player.sendMessage(title + Color.chat("&aCash&f로 변경되었습니다."));
             }
         }
     }

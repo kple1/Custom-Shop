@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import static io.plugin.customShop.Main.plugin;
+import static io.plugin.customShop.listener.ShopMainCenter.changeEcoSetting;
 
 public class ItemBuild {
 
@@ -38,21 +39,16 @@ public class ItemBuild {
                 .build();
     }
 
-    public static ItemStack cashItem() {
+    public static ItemStack ecoItem() {
         return new ItemBuilder(Material.GOLD_INGOT)
-                .setName("[ Cash Setting ]")
-                .build();
-    }
-
-    public static ItemStack moneyItem() {
-        return new ItemBuilder(Material.GOLD_NUGGET)
-                .setName("[ Money Setting ]")
+                .setName("&b● &f[ eco Setting ]")
+                .setLore("  &f> 현재설정 : &a" + changeEcoSetting.get("changeEcoSetting"))
                 .build();
     }
 
     public static ItemStack priceSet() {
         return new ItemBuilder(Material.EMERALD)
-                .setName("[ Price Setting ]")
+                .setName("&b● &f[ Price Setting ]")
                 .build();
     }
 }

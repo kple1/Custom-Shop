@@ -1,4 +1,4 @@
-package io.plugin.customShop.command;
+package io.plugin.customShop.Cash.Command;
 
 import io.plugin.customShop.utils.ItemBuild;
 import org.bukkit.command.CommandSender;

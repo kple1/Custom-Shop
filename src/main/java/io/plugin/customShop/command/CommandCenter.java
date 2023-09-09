@@ -1,6 +1,8 @@
 package io.plugin.customShop.command;
 
+import io.plugin.customShop.Cash.Command.CashIssued;
 import io.plugin.customShop.Main;
+import io.plugin.customShop.utils.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,26 +24,28 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                player.sendMessage("[ Custom-Shop 명령어 사용법 ]");
+                player.sendMessage("");
+                player.sendMessage(Color.chat("[ &bCustom&f-&bShop &c&l&n명령어 사용법 &f]"));
+                player.sendMessage("————————————————");
                 player.sendMessage("/상점 생성 <이름>");
                 player.sendMessage("/상점 열기 <이름>");
                 player.sendMessage("/상점 편집 <이름>");
                 player.sendMessage("/상점 목록 <이름>");
                 player.sendMessage("/상점 삭제 <이름>");
+                player.sendMessage("————————————————");
+                player.sendMessage("");
                 return true;
             }
 
             switch (args[0]) {
-                case "생성" -> StoreManagement.ShopCreate.onCommand(sender, args);
-                case "열기" -> StoreManagement.OpenShop.onCommand(sender, args);
-                case "편집" -> StoreManagement.EditShop.onCommand(sender, args);
-                case "목록" -> StoreManagement.ShopList.onCommand(sender, args);
+                case "생성" -> StoreManagement.ServiceCommandShopCreate.onCommand(sender, args);
+                case "열기" -> StoreManagement.ServiceCommandOpenShop.onCommand(sender, args);
+                case "편집" -> StoreManagement.ServiceCommandEditShop.onCommand(sender, args);
+                case "목록" -> StoreManagement.ServiceCommandShopList.onCommand(sender, args);
                 case "삭제" -> StoreManagement.DeleteShop.onCommand(sender, args);
                 case "캐쉬발급" -> CashIssued.onCommand(sender, args);
-                case "dataSave" -> {
-                    Main.getPlugin().allPlayerSaveData();
-                    player.sendMessage(title + "데이터가 저장되었습니다.");
-                }
+                case "dataSave" -> Main.getPlugin().allPlayerSaveData(player);
+                default -> player.sendMessage(title + "올바르지 않은 명령어 입니다.");
             }
         }
         return false;
@@ -64,7 +68,6 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
             tabList.add("삭제");
             tabList.add("캐쉬발급");
             tabList.add("dataSave");
-            tabList.add("testSave");
             return StringUtil.copyPartialMatches(args[0], tabList, new ArrayList<>());
         }
         return tabList;

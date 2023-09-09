@@ -24,8 +24,8 @@ public class InventoryManager {
         player.openInventory(inv);
     }
 
-    public static void openInventory(Player player, int size, String name) {
-        Inventory inv = Bukkit.createInventory(null, size, name);
+    public static void openInventory(Player player, int size, String name, String addName) {
+        Inventory inv = Bukkit.createInventory(null, size, name + addName);
 
         for (int i = 0; i < inv.getSize(); i++) {
             ItemStack item = plugin.getConfig().getItemStack(name + "." + i + ".item");
@@ -39,10 +39,8 @@ public class InventoryManager {
 
     public static void itemFix(Player player) {
         Inventory inv = Bukkit.createInventory(null, 27, "가격설정");
-        inv.setItem(10, ItemBuild.moneyItem());
-        inv.setItem(13, ItemBuild.cashItem());
+        inv.setItem(10, ItemBuild.ecoItem());
         inv.setItem(16, ItemBuild.priceSet());
-
         player.openInventory(inv);
     }
 

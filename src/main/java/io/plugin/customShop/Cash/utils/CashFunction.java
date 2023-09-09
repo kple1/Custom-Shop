@@ -1,4 +1,4 @@
-package io.plugin.customShop.utils;
+package io.plugin.customShop.Cash.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class CashFunction {
 
-    public static final Map<UUID, Integer> userMoney = new HashMap<>();
+    public static Map<UUID, Integer> userMoney = new HashMap<>();
 
     //캐시를 원하는 만큼 설정합니다. "추가가 아닙니다."
     public static int cashSet(UUID uuid, Integer cashSet) {

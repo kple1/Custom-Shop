@@ -16,10 +16,40 @@ import static io.plugin.customShop.Main.title;
 public class StoreManagement {
 
     public static class DeleteShop {
-        public static void onCommand(CommandSender sender, String[] args) {}
+        public static void onCommand(CommandSender sender, String[] args) {
+            if (sender instanceof Player player) {
+                if (!player.isOp()) return;
+
+                if (args.length < 2 || args[1].isEmpty()) {
+                    player.sendMessage(title + Color.chat("상점을 삭제할 &c&l이름&f을 입력 해주세요!"));
+                    return;
+                }
+
+                boolean found = false;
+                ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
+                if (configSection == null) {
+                    return;
+                }
+
+                for (String list : configSection.getKeys(false)) {
+                    String getShopName = plugin.getConfig().getString("상점목록." + list);
+                    if (Objects.equals(getShopName, args[1])) {
+                        plugin.getConfig().set("상점목록." + list, null);
+                        plugin.getConfig().set(args[1], null);
+                        plugin.saveConfig();
+                        player.sendMessage(title + "상점이 성공적으로 삭제되었습니다!");
+                        return;
+                    }
+                }
+
+                if (!found) {
+                    player.sendMessage(title + "해당 상점은 존재하지 않습니다.");
+                }
+            }
+        }
     }
 
-    public static class EditShop {
+    public static class ServiceCommandEditShop {
         public static void onCommand(CommandSender sender, String[] args) {
             if (sender instanceof Player player) {
                 if (!player.isOp()) return;
@@ -48,7 +78,7 @@ public class StoreManagement {
         }
     }
 
-    public static class OpenShop {
+    public static class ServiceCommandOpenShop {
         public static void onCommand(CommandSender sender, String[] args) {
             if (sender instanceof Player player) {
                 if (!player.isOp()) return;
@@ -80,7 +110,7 @@ public class StoreManagement {
         }
     }
 
-    public static class ShopCreate {
+    public static class ServiceCommandShopCreate {
         public static void onCommand(CommandSender sender, String[] args) {
             if (sender instanceof Player player) {
                 if (!player.isOp()) return;
@@ -116,7 +146,23 @@ public class StoreManagement {
         }
     }
 
-    public static class ShopList {
-        public static void onCommand(CommandSender sender, String[] args) {}
+    public static class ServiceCommandShopList {
+        public static void onCommand(CommandSender sender, String[] args) {
+            if (sender instanceof Player player) {
+                if (!player.isOp()) return;
+                if (args.length > 2) return;
+
+                ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
+                if (configSection == null) return;
+
+                player.sendMessage("");
+                player.sendMessage("〔 상점 목록 〕");
+                for (String key : configSection.getKeys(false)) {
+                    String getSection = plugin.getConfig().getString("상점목록." + key);
+                    player.sendMessage(Color.chat("  &b● &f" + getSection));
+                }
+                player.sendMessage("");
+            }
+        }
     }
 }
