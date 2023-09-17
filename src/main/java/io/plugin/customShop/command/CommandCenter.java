@@ -3,6 +3,7 @@ package io.plugin.customShop.command;
 import io.plugin.customShop.Cash.Command.CashIssued;
 import io.plugin.customShop.Main;
 import io.plugin.customShop.utils.Color;
+import io.plugin.customShop.utils.MessageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,16 +25,7 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                player.sendMessage("");
-                player.sendMessage(Color.chat("[ &bCustom&f-&bShop &c&l&n명령어 사용법 &f]"));
-                player.sendMessage("————————————————");
-                player.sendMessage("/상점 생성 <이름>");
-                player.sendMessage("/상점 열기 <이름>");
-                player.sendMessage("/상점 편집 <이름>");
-                player.sendMessage("/상점 목록 <이름>");
-                player.sendMessage("/상점 삭제 <이름>");
-                player.sendMessage("————————————————");
-                player.sendMessage("");
+                MessageManager.args0(player);
                 return true;
             }
 

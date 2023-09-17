@@ -29,7 +29,7 @@ public class ServiceGetCash implements Listener {
             return;
         }
 
-        if (!(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
+        if (!(event.getAction() == Action.RIGHT_CLICK_AIR)) return;
         if (!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
 
         String key = itemMeta.getDisplayName();
@@ -40,8 +40,10 @@ public class ServiceGetCash implements Listener {
             Main.getPlugin().removeItemsFromMainHand(player, 1); //사용한 아이템 삭제
 
             cashAdd(playerUUID, cashValue); //돈 추가
+            player.sendMessage("");
             player.sendMessage(title + Color.chat("캐쉬가 발급 되었습니다!"));
             player.sendMessage(title + Color.chat("현재 잔액: " + getCash(playerUUID))); // 플레이어의 현재 돈 출력
+            player.sendMessage("");
         }
     }
 }
