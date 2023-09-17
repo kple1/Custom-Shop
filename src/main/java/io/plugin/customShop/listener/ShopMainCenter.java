@@ -118,10 +118,7 @@ class ServicePriceSetting implements Listener {
         Player getMessagePlayer = event.getPlayer();
         String message = event.getMessage();
 
-        if (!message.isEmpty()) {
-            if (!isNumeric(message)) {
-                return;
-            }
+        if (!message.isEmpty() || !isNumeric(message)) {
 
             boolean found = false;
             ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
@@ -137,7 +134,7 @@ class ServicePriceSetting implements Listener {
                 InventoryManager.itemFix(getMessagePlayer);
                 getMessagePlayer.sendMessage(title + "가격설정이 완료되었습니다!");
             }
-            HandlerList.unregisterAll(this); // 채팅을 계속 입력받는 거 방지
+            HandlerList.unregisterAll(this); // 채팅을 계속 입력받는 거 방지 (인벤클릭 이벤트도 이벤트에서 해제됨 수정..)
             event.setCancelled(true); // 채팅 보내기 취소
         }
     }
