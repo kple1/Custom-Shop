@@ -32,7 +32,8 @@ public class ShopMainCenter {
     public static void registerListeners(Plugin plugin) {
         Bukkit.getPluginManager().registerEvents(new ServiceItemPriceSetting(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceItemSettingInvOpen(), plugin);
-        Bukkit.getPluginManager().registerEvents(new ServicePriceSetting(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServicePriceInputChat(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServiceWaitingForSalesInput(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceRegistrationItem(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceSaveShopSettingsItem(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceShopLineEdit(), plugin);
@@ -96,11 +97,7 @@ class ServiceItemSettingInvOpen implements Listener {
     }
 }
 
-class ServicePriceSetting implements Listener {
-
-    public ServicePriceSetting() {}
-
-    //가격설정을 위한 설정창에서 아이템 클릭
+class ServiceWaitingForSalesInput implements Listener {
     @EventHandler
     public void priceSettingClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
@@ -108,9 +105,14 @@ class ServicePriceSetting implements Listener {
         if (Objects.equals(event.getCurrentItem(), ItemBuild.priceSet())) {
             player.closeInventory();
             player.sendMessage(title + "채팅에 가격을 입력 해주세요.");
-            Bukkit.getPluginManager().registerEvents(new ServicePriceSetting(), Main.getPlugin());
+            Bukkit.getPluginManager().registerEvents(new ServicePriceInputChat(), Main.getPlugin());
         }
     }
+}
+
+class ServicePriceInputChat implements Listener {
+
+    public ServicePriceInputChat() {}
 
     //채팅으로 가격입력
     @EventHandler
