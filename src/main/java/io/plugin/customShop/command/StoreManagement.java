@@ -12,6 +12,7 @@ import java.util.Objects;
 
 import static io.plugin.customShop.Main.plugin;
 import static io.plugin.customShop.Main.title;
+import static io.plugin.customShop.config.ConfigSection.configSection;
 
 public class StoreManagement {
 
@@ -152,12 +153,9 @@ public class StoreManagement {
                 if (!player.isOp()) return;
                 if (args.length > 2) return;
 
-                ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
-                if (configSection == null) return;
-
                 player.sendMessage("");
                 player.sendMessage("〔 상점 목록 〕");
-                for (String key : configSection.getKeys(false)) {
+                for (String key : configSection("상점목록").getKeys(false)) {
                     String getSection = plugin.getConfig().getString("상점목록." + key);
                     player.sendMessage(Color.chat("  &b● &f" + getSection));
                 }

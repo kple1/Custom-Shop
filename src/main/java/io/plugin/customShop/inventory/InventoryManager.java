@@ -40,6 +40,7 @@ public class InventoryManager {
     public static void itemFix(Player player) {
         Inventory inv = Bukkit.createInventory(null, 27, "가격설정");
         inv.setItem(10, ItemBuild.ecoItem());
+        inv.setItem(13, ItemBuild.sellOrBuySetting());
         inv.setItem(16, ItemBuild.priceSet());
         player.openInventory(inv);
     }

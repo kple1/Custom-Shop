@@ -24,10 +24,13 @@ import java.util.Objects;
 
 import static io.plugin.customShop.Main.plugin;
 import static io.plugin.customShop.Main.title;
+import static io.plugin.customShop.config.ConfigSection.configSection;
+import static io.plugin.customShop.utils.ItemBuild.*;
 
 public class ShopMainCenter {
 
     public static Map<String, String> changeEcoSetting = new HashMap<>();
+    public static Map<String, String> changeSellOrBuySetting = new HashMap<>();
 
     public static void registerListeners(Plugin plugin) {
         Bukkit.getPluginManager().registerEvents(new ServiceItemPriceSetting(), plugin);
@@ -38,6 +41,7 @@ public class ShopMainCenter {
         Bukkit.getPluginManager().registerEvents(new ServiceSaveShopSettingsItem(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceShopLineEdit(), plugin);
         Bukkit.getPluginManager().registerEvents(new ServiceChangeEconomy(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ServiceChangeSellOrBuySetting(), plugin);
     }
 }
 
@@ -47,8 +51,7 @@ class ServiceItemPriceSetting implements Listener {
     public void itemPriceAndBuySettings(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
-        for (String list : configSection.getKeys(false)) {
+        for (String list : configSection("상점목록").getKeys(false)) {
 
             String getShopName = plugin.getConfig().getString("상점목록." + list);
             int size = plugin.getConfig().getInt(getShopName + ".size");
@@ -56,10 +59,8 @@ class ServiceItemPriceSetting implements Listener {
             if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase(getShopName + "상점 편집메뉴")) {
 
                 if (event.getSlot() == 16) {
-                    if (event.getClick().isLeftClick()) {
-                        InventoryManager.openInventory(player, size, getShopName, "상점 구매&판매설정");
-                        return;
-                    }
+                    InventoryManager.openInventory(player, size, getShopName, "상점 구매&판매설정");
+                    return;
                 }
             }
         }
@@ -71,26 +72,26 @@ class ServiceItemSettingInvOpen implements Listener {
     public static Map<String, Integer> saveSlot = new HashMap<>();
 
     @EventHandler
-    public void itemSellPriceItemClickToOpenSetting(InventoryClickEvent event) {
+    public void itemPriceClickToOpenSetting(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
 
-        for (String list : configSection.getKeys(false)) {
+        for (String list : configSection("상점목록").getKeys(false)) {
 
             String getShopName = plugin.getConfig().getString("상점목록." + list);
-            if (!event.getView().getTitle().equals(getShopName + "상점 구매&판매설정")) return;
+            if (event.getView().getTitle().equals(getShopName + "상점 구매&판매설정")) {
 
-            if (event.getCurrentItem() == null) return;
-            if (event.getCurrentItem().getType() == Material.AIR) return;
-            if (event.getClickedInventory() == null) return;
-            if (event.getClickedInventory().equals(player.getInventory())) return;
-            if (event.getRawSlot() >= event.getInventory().getSize()) return;
+                if (event.getCurrentItem() == null) return;
+                if (event.getCurrentItem().getType() == Material.AIR) return;
+                if (event.getClickedInventory() == null) return;
+                if (event.getClickedInventory().equals(player.getInventory())) return;
+                if (event.getRawSlot() >= event.getInventory().getSize()) return;
 
-            for (int i = 0; i < event.getInventory().getSize(); i++) {
-                if (event.getSlot() == i) {
-                    saveSlot.put("saveSlot", event.getSlot());
-                    InventoryManager.itemFix(player);
-                    return;
+                for (int i = 0; i < event.getInventory().getSize(); i++) {
+                    if (event.getSlot() == i) {
+                        saveSlot.put("saveSlot", event.getSlot());
+                        InventoryManager.itemFix(player);
+                        return;
+                    }
                 }
             }
         }
@@ -112,7 +113,8 @@ class ServiceWaitingForSalesInput implements Listener {
 
 class ServicePriceInputChat implements Listener {
 
-    public ServicePriceInputChat() {}
+    public ServicePriceInputChat() {
+    }
 
     //채팅으로 가격입력
     @EventHandler
@@ -123,10 +125,9 @@ class ServicePriceInputChat implements Listener {
         if (!message.isEmpty() || !isNumeric(message)) {
 
             boolean found = false;
-            ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
-            for (String list : configSection.getKeys(false)) {
+            for (String list : configSection("상점목록").getKeys(false)) {
                 String getShopName = plugin.getConfig().getString("상점목록." + list);
-                plugin.getConfig().set(getShopName + "." + ServiceItemSettingInvOpen.saveSlot.get("saveSlot") + ".buy", message);
+                plugin.getConfig().set(getShopName + "." + ServiceItemSettingInvOpen.saveSlot.get("saveSlot") + "." + ShopMainCenter.changeSellOrBuySetting.get("changePriceSetting"), message);
                 plugin.saveConfig();
                 found = true;
                 break; // 한 번 찾았으면 반복문 종료
@@ -157,9 +158,7 @@ class ServiceRegistrationItem implements Listener {
     public void itemEdit(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
-        for (String list : configSection.getKeys(false)) {
-
+        for (String list : configSection("상점목록").getKeys(false)) {
             String getShopName = plugin.getConfig().getString("상점목록." + list);
             int size = plugin.getConfig().getInt(getShopName + ".size");
 
@@ -180,23 +179,21 @@ class ServiceSaveShopSettingsItem implements Listener {
     public void itemSaveForItemSet(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
 
-        ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
-        for (String list : configSection.getKeys(false)) {
-
+        for (String list : configSection("상점목록").getKeys(false)) {
             String getShopName = plugin.getConfig().getString("상점목록." + list);
-            if (!event.getView().getTitle().equals(getShopName)) return;
 
-            for (int j = 0; j < event.getInventory().getSize(); j++) {
-                ItemStack item = event.getView().getItem(j);
-                if (item != null) {
-                    plugin.getConfig().set(getShopName + "." + j + ".item", item);
-                } else {
-                    plugin.getConfig().set(getShopName + "." + j, null);
+            if (event.getView().getTitle().equals(getShopName)) {
+                for (int j = 0; j < event.getInventory().getSize(); j++) {
+                    ItemStack item = event.getView().getItem(j);
+                    if (item != null) {
+                        plugin.getConfig().set(getShopName + "." + j + ".item", item);
+                    } else {
+                        plugin.getConfig().set(getShopName + "." + j, null);
+                    }
                 }
+                player.sendMessage(title + "설정이 저장되었습니다.");
+                plugin.saveConfig();
             }
-            player.sendMessage(title + "설정이 저장되었습니다.");
-            plugin.saveConfig();
-            break;
         }
     }
 }
@@ -208,8 +205,7 @@ class ServiceShopLineEdit implements Listener {
     public void shopLineEdit(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        ConfigurationSection configSection = plugin.getConfig().getConfigurationSection("상점목록");
-        for (String list : configSection.getKeys(false)) {
+        for (String list : configSection("상점목록").getKeys(false)) {
 
             String getShopName = plugin.getConfig().getString("상점목록." + list);
             int getSize = plugin.getConfig().getInt(getShopName + ".size");
@@ -262,6 +258,31 @@ class ServiceChangeEconomy implements Listener {
                 ShopMainCenter.changeEcoSetting.put("changeEcoSetting", "Cash");
                 player.sendMessage(title + Color.chat("&aCash&f로 변경되었습니다."));
             }
+
+            ItemStack updatedItem = ecoItem();
+            player.getOpenInventory().setItem(10, updatedItem);
+        }
+    }
+}
+
+class ServiceChangeSellOrBuySetting implements Listener {
+
+    @EventHandler
+    public void changePriceSetting(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        if (!event.getView().getTitle().equals("가격설정")) return;
+        if (event.getSlot() == 13) {
+            ShopMainCenter.changeSellOrBuySetting.putIfAbsent("changePriceSetting", "buy");
+            if (ShopMainCenter.changeSellOrBuySetting.get("changePriceSetting").equals("buy")) {
+                ShopMainCenter.changeSellOrBuySetting.put("changePriceSetting", "sell");
+                player.sendMessage(title + Color.chat("&bsell&f로 변경되었습니다."));
+            } else if (ShopMainCenter.changeSellOrBuySetting.get("changePriceSetting").equals("sell")) {
+                ShopMainCenter.changeSellOrBuySetting.put("changePriceSetting", "buy");
+                player.sendMessage(title + Color.chat("&abuy&f로 변경되었습니다."));
+            }
+            // 클릭한 후 아이템 이름과 설명을 업데이트
+            ItemStack updatedItem = sellOrBuySetting();
+            player.getOpenInventory().setItem(13, updatedItem);
         }
     }
 }

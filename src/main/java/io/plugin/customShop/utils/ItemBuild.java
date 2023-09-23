@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import static io.plugin.customShop.Main.plugin;
 import static io.plugin.customShop.listener.ShopMainCenter.changeEcoSetting;
+import static io.plugin.customShop.listener.ShopMainCenter.changeSellOrBuySetting;
 
 public class ItemBuild {
 
@@ -49,6 +50,13 @@ public class ItemBuild {
     public static ItemStack priceSet() {
         return new ItemBuilder(Material.EMERALD)
                 .setName("&b● &f[ Price Setting ]")
+                .build();
+    }
+
+    public static ItemStack sellOrBuySetting() {
+        return new ItemBuilder(Material.DANDELION)
+                .setName("&b● &f[ SellOrBuySetting ]")
+                .setLore("  &f> 현재설정 : &a" + changeSellOrBuySetting.get("changePriceSetting"))
                 .build();
     }
 }
