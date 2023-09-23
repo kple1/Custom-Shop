@@ -14,11 +14,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -286,3 +288,27 @@ class ServiceChangeSellOrBuySetting implements Listener {
         }
     }
 }
+
+class MainUserShop implements Listener {
+
+    @EventHandler
+    public void mainUserShopItemClick(InventoryClickEvent event) {
+        //TODO
+        //아이템의 Lore를 가져오는 방식으로 운영
+        //Lore에 Cash, Money로 구별
+        //Lore에 돈 구별
+    }
+}
+
+/* 보류
+class OpenMainUserShopLoad implements Listener {
+
+    @EventHandler
+    public void openShopLoad(InventoryOpenEvent event) {
+        for (String list : configSection("상점목록").getKeys(false)) {
+            if (event.getView().getTitle().equals(plugin.getConfig().getString("상점목록" + list) + "상점")) {
+
+            }
+        }
+    }
+}*/
