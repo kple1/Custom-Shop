@@ -130,6 +130,9 @@ class ServicePriceInputChat implements Listener {
             for (String list : configSection("상점목록").getKeys(false)) {
                 String getShopName = plugin.getConfig().getString("상점목록." + list);
                 plugin.getConfig().set(getShopName + "." + ServiceItemSettingInvOpen.saveSlot.get("saveSlot") + "." + ShopMainCenter.changeSellOrBuySetting.get("changePriceSetting"), message);
+
+                //addLore Logic 구현
+
                 plugin.saveConfig();
                 found = true;
                 break; // 한 번 찾았으면 반복문 종료
@@ -299,16 +302,3 @@ class MainUserShop implements Listener {
         //Lore에 돈 구별
     }
 }
-
-/* 보류
-class OpenMainUserShopLoad implements Listener {
-
-    @EventHandler
-    public void openShopLoad(InventoryOpenEvent event) {
-        for (String list : configSection("상점목록").getKeys(false)) {
-            if (event.getView().getTitle().equals(plugin.getConfig().getString("상점목록" + list) + "상점")) {
-
-            }
-        }
-    }
-}*/

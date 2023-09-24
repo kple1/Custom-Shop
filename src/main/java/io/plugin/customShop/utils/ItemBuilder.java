@@ -1,6 +1,5 @@
 package io.plugin.customShop.utils;
 
-import com.google.common.base.Preconditions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -29,7 +28,6 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setName(String name) {
-        Preconditions.checkNotNull(name, "name is null");
         itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         return this;
     }
@@ -44,6 +42,18 @@ public class ItemBuilder {
 
     public ItemBuilder setLore(String... lore) {
         return setLore(Arrays.asList(lore));
+    }
+
+    public ItemBuilder addLore(List<String> lore) {
+        List<String> coloredLore = lore.stream()
+                .map(line -> ChatColor.translateAlternateColorCodes('&', line))
+                .toList();
+        itemMeta.getLore().add(coloredLore.toString());
+        return this;
+    }
+
+    public ItemBuilder addLore(String... lore) {
+        return addLore(Arrays.asList(lore));
     }
 
     public ItemStack build() {
