@@ -1,4 +1,4 @@
-package io.plugin.customShop.listener;
+package io.plugin.customShop.listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;

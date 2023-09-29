@@ -3,9 +3,12 @@ package io.plugin.customShop.utils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 import static io.plugin.customShop.Main.plugin;
-import static io.plugin.customShop.listener.ShopMainCenter.changeEcoSetting;
-import static io.plugin.customShop.listener.ShopMainCenter.changeSellOrBuySetting;
+import static io.plugin.customShop.listeners.ServiceItemSettingInvOpen.getLore;
+import static io.plugin.customShop.listeners.ShopMainCenter.changeEcoSetting;
+import static io.plugin.customShop.listeners.ShopMainCenter.changeSellOrBuySetting;
 
 public class ItemBuild {
 
@@ -58,5 +61,18 @@ public class ItemBuild {
                 .setName("&b● &f[ SellOrBuySetting ]")
                 .setLore("  &f> 현재설정 : &a" + changeSellOrBuySetting.get("changePriceSetting"))
                 .build();
+    }
+
+    public static ItemStack serviceItemSettingInvOpen_getLore_add(String price) {
+        changeSellOrBuySetting.putIfAbsent("changePriceSetting", "buy");
+        if (changeSellOrBuySetting.get("changePriceSetting").equals("buy")) {
+            return new ItemBuilder(getLore.get("lore"))
+                    .addLore("구매 : " + price)
+                    .build();
+        } else {
+            return new ItemBuilder(getLore.get("lore"))
+                    .addLore("판매 : " + price)
+                    .build();
+        }
     }
 }

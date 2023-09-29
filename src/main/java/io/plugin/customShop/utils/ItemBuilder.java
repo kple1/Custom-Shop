@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,8 +48,14 @@ public class ItemBuilder {
     public ItemBuilder addLore(List<String> lore) {
         List<String> coloredLore = lore.stream()
                 .map(line -> ChatColor.translateAlternateColorCodes('&', line))
-                .toList();
-        itemMeta.getLore().add(coloredLore.toString());
+                .collect(Collectors.toList());
+
+        if (itemMeta.hasLore()) {
+            coloredLore.add(String.valueOf(itemMeta.getLore())); // 기존 lore 불러오기
+        }
+
+        coloredLore.add(String.valueOf(lore)); // 추가할 lore
+        itemMeta.setLore(coloredLore);
         return this;
     }
 
