@@ -45,22 +45,16 @@ public class ItemBuilder {
         return setLore(Arrays.asList(lore));
     }
 
-    public ItemBuilder addLore(List<String> lore) {
-        List<String> coloredLore = lore.stream()
-                .map(line -> ChatColor.translateAlternateColorCodes('&', line))
-                .collect(Collectors.toList());
+    public ItemBuilder addLore(String lore) {
+        List<String> coloredLore = new ArrayList<>();
 
-        if (itemMeta.hasLore()) {
+        if (!itemMeta.getLore().isEmpty() || !(itemMeta.getLore() == null)) {
             coloredLore.add(String.valueOf(itemMeta.getLore())); // 기존 lore 불러오기
         }
 
-        coloredLore.add(String.valueOf(lore)); // 추가할 lore
+        coloredLore.add(lore); // 추가할 lore
         itemMeta.setLore(coloredLore);
         return this;
-    }
-
-    public ItemBuilder addLore(String... lore) {
-        return addLore(Arrays.asList(lore));
     }
 
     public ItemStack build() {
