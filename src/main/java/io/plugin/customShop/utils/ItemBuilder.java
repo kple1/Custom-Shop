@@ -48,8 +48,13 @@ public class ItemBuilder {
     public ItemBuilder addLore(String lore) {
         List<String> coloredLore = new ArrayList<>();
 
-        if (!itemMeta.getLore().isEmpty() || !(itemMeta.getLore() == null)) {
-            coloredLore.add(String.valueOf(itemMeta.getLore())); // 기존 lore 불러오기
+        try { // 기존 lore 못 불러옴 lore도 추가 안됨.
+            if (!(itemMeta.getLore() == null)) {
+                coloredLore.add(String.valueOf(itemMeta.getLore())); // 기존 lore 불러오기
+                return this;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         coloredLore.add(lore); // 추가할 lore
