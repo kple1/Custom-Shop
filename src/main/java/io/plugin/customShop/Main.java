@@ -18,8 +18,8 @@ import java.util.UUID;
 
 import static io.plugin.customShop.config.UserConfig.config;
 import static io.plugin.customShop.config.UserConfig.playerFile;
-import static io.plugin.customShop.Cash.utils.CashFunction.getCash;
-import static io.plugin.customShop.Cash.utils.CashFunction.userMoney;
+import static io.plugin.customShop.Cash.utils.CashLib.getCash;
+import static io.plugin.customShop.Cash.utils.CashLib.userMoney;
 
 public final class Main extends JavaPlugin {
 

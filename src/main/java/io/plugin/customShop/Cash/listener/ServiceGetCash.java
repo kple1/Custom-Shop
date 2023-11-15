@@ -13,8 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.UUID;
 
 import static io.plugin.customShop.Main.title;
-import static io.plugin.customShop.Cash.utils.CashFunction.cashAdd;
-import static io.plugin.customShop.Cash.utils.CashFunction.getCash;
+import static io.plugin.customShop.Cash.utils.CashLib.cashAdd;
+import static io.plugin.customShop.Cash.utils.CashLib.getCash;
 
 public class ServiceGetCash implements Listener {
 

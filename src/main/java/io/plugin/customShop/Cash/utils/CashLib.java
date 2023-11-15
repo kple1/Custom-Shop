@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class CashFunction {
+public class CashLib {
 
     public static Map<UUID, Integer> userMoney = new HashMap<>();
 
