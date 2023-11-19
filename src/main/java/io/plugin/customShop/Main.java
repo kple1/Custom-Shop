@@ -25,24 +25,6 @@ public final class Main extends JavaPlugin implements CashLib {
     public static Main plugin;
     public static String title = Color.chat("&f[ &aShop &f] ");
 
-    private void getCashData() {
-        Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
-        for (Player player : onlinePlayers) {
-            YamlConfiguration config = UserConfig.getPlayerConfig(player);
-            UUID uuid = player.getUniqueId();
-            userMoney.put(uuid, config.getInt("cash"));
-        }
-
-        OfflinePlayer[] offlinePlayers = Bukkit.getServer().getOfflinePlayers();
-        for (OfflinePlayer player : offlinePlayers) {
-            if (!player.isOnline()) {
-                YamlConfiguration config = UserConfig.getPlayerConfig(player);
-                UUID uuid = player.getUniqueId();
-                userMoney.put(uuid, config.getInt("cash"));
-            }
-        }
-    }
-
     public void allPlayerSaveData(Player player) {
         int getOnlinePlayerAmount = 0;
         Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
@@ -82,7 +64,7 @@ public final class Main extends JavaPlugin implements CashLib {
         this.listener();
 
         //get User Cash Data
-        getCashData();
+        CashLib.getCashData();
 
         //instance
         new Metrics(this, 19558);

@@ -1,5 +1,12 @@
 package io.plugin.customShop.Cash.utils;
 
+import io.plugin.customShop.config.UserConfig;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -56,5 +63,26 @@ public interface CashLib {
     static void cashAdd(UUID uuid, Integer cashAdd) {
         int getUserCash = getCash(uuid) + cashAdd;
         userMoney.put(uuid, getUserCash);
+    }
+
+    /**
+     * 유저의 캐시 데이터를 가져옵니다.
+     */
+    static void getCashData() {
+        Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
+        for (Player player : onlinePlayers) {
+            YamlConfiguration config = UserConfig.getPlayerConfig(player);
+            UUID uuid = player.getUniqueId();
+            userMoney.put(uuid, config.getInt("cash"));
+        }
+
+        OfflinePlayer[] offlinePlayers = Bukkit.getServer().getOfflinePlayers();
+        for (OfflinePlayer player : offlinePlayers) {
+            if (!player.isOnline()) {
+                YamlConfiguration config = UserConfig.getPlayerConfig(player);
+                UUID uuid = player.getUniqueId();
+                userMoney.put(uuid, config.getInt("cash"));
+            }
+        }
     }
 }

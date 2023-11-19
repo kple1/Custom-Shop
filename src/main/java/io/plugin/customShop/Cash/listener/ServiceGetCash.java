@@ -24,10 +24,8 @@ public class ServiceGetCash implements Listener, CashLib {
 
         ItemStack itemInHand = player.getInventory().getItemInMainHand();
         ItemMeta itemMeta = itemInHand.getItemMeta();
-        if (itemMeta == null) {
-            return;
-        }
 
+        if (itemMeta == null) return;
         if (!(event.getAction() == Action.RIGHT_CLICK_AIR)) return;
         if (!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
 
