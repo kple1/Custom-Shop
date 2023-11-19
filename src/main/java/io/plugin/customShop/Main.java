@@ -1,6 +1,7 @@
 package io.plugin.customShop;
 
 import io.plugin.customShop.Cash.listener.ServiceGetCash;
+import io.plugin.customShop.Cash.utils.CashLib;
 import io.plugin.customShop.config.UserConfig;
 import io.plugin.customShop.bStats.Metrics;
 import io.plugin.customShop.command.CommandCenter;
@@ -18,10 +19,8 @@ import java.util.UUID;
 
 import static io.plugin.customShop.config.UserConfig.config;
 import static io.plugin.customShop.config.UserConfig.playerFile;
-import static io.plugin.customShop.Cash.utils.CashLib.getCash;
-import static io.plugin.customShop.Cash.utils.CashLib.userMoney;
 
-public final class Main extends JavaPlugin {
+public final class Main extends JavaPlugin implements CashLib {
 
     public static Main plugin;
     public static String title = Color.chat("&f[ &aShop &f] ");
@@ -50,7 +49,7 @@ public final class Main extends JavaPlugin {
         for (Player loopAllPlayer : onlinePlayers) {
             UUID playerUUID = loopAllPlayer.getUniqueId();
             YamlConfiguration config = UserConfig.getPlayerConfig(loopAllPlayer);
-            config.set("cash", getCash(playerUUID));
+            config.set("cash", CashLib.getCash(playerUUID));
             this.saveYamlConfiguration();
 
             getOnlinePlayerAmount = onlinePlayers.size();
@@ -64,7 +63,7 @@ public final class Main extends JavaPlugin {
             if (!loopAllPlayer.isOnline()) {
                 YamlConfiguration config = UserConfig.getPlayerConfig(loopAllPlayer);
                 UUID getPayerUUID = loopAllPlayer.getUniqueId();
-                config.set("cash", getCash(getPayerUUID));
+                config.set("cash", CashLib.getCash(getPayerUUID));
                 this.saveYamlConfiguration();
 
                 int getOfflinePlayerAmount = offlinePlayers.length - getOnlinePlayerAmount;

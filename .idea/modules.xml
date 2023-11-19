@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Custom-Shop.iml" filepath="$PROJECT_DIR$/.idea/modules/Custom-Shop.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Custom-Shop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Custom-Shop.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Custom-Shop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Custom-Shop.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Custom-Shop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Custom-Shop.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo.Custom-Shop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo.Custom-Shop.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/io.Custom-Shop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/io.Custom-Shop.main.iml" />
     </modules>

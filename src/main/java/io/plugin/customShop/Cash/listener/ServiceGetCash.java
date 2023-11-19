@@ -1,5 +1,6 @@
 package io.plugin.customShop.Cash.listener;
 
+import io.plugin.customShop.Cash.utils.CashLib;
 import io.plugin.customShop.Main;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.entity.Player;
@@ -13,10 +14,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.UUID;
 
 import static io.plugin.customShop.Main.title;
-import static io.plugin.customShop.Cash.utils.CashLib.cashAdd;
-import static io.plugin.customShop.Cash.utils.CashLib.getCash;
 
-public class ServiceGetCash implements Listener {
+public class ServiceGetCash implements Listener, CashLib {
 
     @EventHandler
     public void cashSet(PlayerInteractEvent event) {
@@ -39,10 +38,10 @@ public class ServiceGetCash implements Listener {
             int cashValue = Integer.parseInt(extractedNumbers); //추가할 돈 가져오기
             Main.getPlugin().removeItemsFromMainHand(player, 1); //사용한 아이템 삭제
 
-            cashAdd(playerUUID, cashValue); //돈 추가
+            CashLib.cashAdd(playerUUID, cashValue); //돈 추가
             player.sendMessage("");
             player.sendMessage(title + Color.chat("캐쉬가 발급 되었습니다!"));
-            player.sendMessage(title + Color.chat("현재 잔액: " + getCash(playerUUID))); // 플레이어의 현재 돈 출력
+            player.sendMessage(title + Color.chat("현재 잔액: " + CashLib.getCash(playerUUID))); // 플레이어의 현재 돈 출력
             player.sendMessage("");
         }
     }
