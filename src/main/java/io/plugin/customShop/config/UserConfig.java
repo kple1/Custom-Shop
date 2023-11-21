@@ -11,7 +11,7 @@ public class UserConfig {
     public static File playerFile = new File("plugins/Custom-Shop/playerData/");
 
     public static YamlConfiguration getPlayerConfig(OfflinePlayer player) {
-        playerFile = new File("plugins/Custom-Shop/playerData/" + player.getUniqueId().toString() + ".yml");
+        playerFile = new File("plugins/Custom-Shop/playerData/" + player.getUniqueId() + ".yml");
 
         if (!playerFile.exists()) {
             config.options().copyDefaults(true);
