@@ -9,5 +9,4 @@ import java.util.Collection;
 public interface GetPlayer {
     Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
     OfflinePlayer[] offlinePlayers = Bukkit.getServer().getOfflinePlayers();
-
 }

@@ -29,14 +29,14 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
             }
 
             switch (args[0]) {
-                case "생성": StoreManagement.ServiceCommandShopCreate.onCommand(sender, args);
-                case "열기": StoreManagement.ServiceCommandOpenShop.onCommand(sender, args);
-                case "편집": StoreManagement.ServiceCommandEditShop.onCommand(sender, args);
-                case "목록": StoreManagement.ServiceCommandShopList.onCommand(sender, args);
-                case "삭제": StoreManagement.DeleteShop.onCommand(sender, args);
-                case "캐쉬발급": CashIssued.onCommand(sender, args);
-                case "dataSave": Main.getPlugin().allPlayerSaveData(player);
-                default: player.sendMessage(title + "올바르지 않은 명령어 입니다.");
+                case "생성" -> StoreManagement.ServiceCommandShopCreate.onCommand(sender, args);
+                case "열기" -> StoreManagement.ServiceCommandOpenShop.onCommand(sender, args);
+                case "편집" -> StoreManagement.ServiceCommandEditShop.onCommand(sender, args);
+                case "목록" -> StoreManagement.ServiceCommandShopList.onCommand(sender, args);
+                case "삭제" -> StoreManagement.DeleteShop.onCommand(sender, args);
+                case "캐쉬발급" -> CashIssued.onCommand(sender, args);
+                case "dataSave" -> Main.getPlugin().allPlayerSaveData(player);
+                default -> player.sendMessage(title + "올바르지 않은 명령어 입니다.");
             }
         }
         return false;
