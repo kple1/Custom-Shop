@@ -3,8 +3,6 @@ package io.plugin.customShop.utils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-
 import static io.plugin.customShop.Main.plugin;
 import static io.plugin.customShop.listeners.ServiceItemSettingInvOpen.getLore;
 import static io.plugin.customShop.listeners.ShopMainCenter.changeEcoSetting;
