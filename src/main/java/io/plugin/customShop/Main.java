@@ -8,6 +8,7 @@ import io.plugin.customShop.command.CommandCenter;
 import io.plugin.customShop.listeners.*;
 import io.plugin.customShop.utils.Color;
 import io.plugin.customShop.utils.PlayerInterface;
+import io.plugin.customShop.utils.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,30 +21,30 @@ import java.util.UUID;
 import static io.plugin.customShop.config.UserConfig.config;
 import static io.plugin.customShop.config.UserConfig.playerFile;
 
-public final class Main extends JavaPlugin implements CashLib {
+public final class Main extends JavaPlugin {
 
     public static Main plugin;
     public static String title = Color.chat("&f[ &aShop &f] ");
 
     public void allPlayerSaveData(Player player) {
         int getOnlinePlayerAmount = 0;
-        for (Player loopAllPlayer : PlayerInterface.onlinePlayers) {
+        for (Player loopAllPlayer : PlayerManager.onlinePlayers) {
             UUID playerUUID = loopAllPlayer.getUniqueId();
             YamlConfiguration config = UserConfig.getPlayerConfig(loopAllPlayer);
             config.set("cash", CashLib.getCash(playerUUID));
             this.saveYamlConfiguration();
 
-            getOnlinePlayerAmount = PlayerInterface.onlinePlayers.size();
+            getOnlinePlayerAmount = PlayerManager.onlinePlayers.size();
             if (player != null) player.sendMessage(title + getOnlinePlayerAmount + "명의 온라인 유저의 데이터를 저장하였습니다.");
         }
-        for (OfflinePlayer loopAllPlayer : PlayerInterface.offlinePlayers) {
+        for (OfflinePlayer loopAllPlayer : PlayerManager.offlinePlayers) {
             if (!loopAllPlayer.isOnline()) {
                 YamlConfiguration config = UserConfig.getPlayerConfig(loopAllPlayer);
                 UUID getPayerUUID = loopAllPlayer.getUniqueId();
                 config.set("cash", CashLib.getCash(getPayerUUID));
                 this.saveYamlConfiguration();
 
-                int getOfflinePlayerAmount = PlayerInterface.offlinePlayers.length - getOnlinePlayerAmount;
+                int getOfflinePlayerAmount = PlayerManager.offlinePlayers.length - getOnlinePlayerAmount;
                 if (player != null) player.sendMessage(title + getOfflinePlayerAmount + "명의 오프라인 유저의 데이터를 저장하였습니다.");
             }
         }

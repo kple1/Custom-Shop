@@ -1,6 +1,5 @@
 package io.plugin.customShop.inventory;
 
-
 import io.plugin.customShop.utils.ItemBuild;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

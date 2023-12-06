@@ -24,7 +24,7 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                MessageManager.args0(player);
+                MessageManager.sendAnnouncementArgs0(player);
                 return true;
             }
 

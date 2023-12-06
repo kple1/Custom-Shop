@@ -15,7 +15,7 @@ import java.util.UUID;
 
 import static io.plugin.customShop.Main.title;
 
-public class ServiceGetCash implements Listener, CashLib {
+public class ServiceGetCash implements Listener {
 
     @EventHandler
     public void cashSet(PlayerInteractEvent event) {

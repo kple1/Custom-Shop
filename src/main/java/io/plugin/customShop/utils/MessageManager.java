@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 public class MessageManager {
 
-    public static void args0(Player player) {
+    public static void sendAnnouncementArgs0(Player player) {
         player.sendMessage("");
         player.sendMessage(Color.chat("[ &bCustom&f-&bShop &c&l&n명령어 사용법 &f]"));
         player.sendMessage("————————————————");

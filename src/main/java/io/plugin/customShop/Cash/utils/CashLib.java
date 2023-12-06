@@ -1,7 +1,7 @@
 package io.plugin.customShop.Cash.utils;
 
 import io.plugin.customShop.config.UserConfig;
-import io.plugin.customShop.utils.PlayerInterface;
+import io.plugin.customShop.utils.PlayerManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public interface CashLib {
+public class CashLib {
 
-    Map<UUID, Integer> userMoney = new HashMap<>();
+    public static Map<UUID, Integer> userMoney = new HashMap<>();
 
     /**
      * 캐시를 원하는 만큼 설정합니다. "추가가 아닙니다."
@@ -20,7 +20,7 @@ public interface CashLib {
      * @param cashSet
      * @return
      */
-    static int cashSet(UUID uuid, Integer cashSet) {
+    public static int cashSet(UUID uuid, Integer cashSet) {
         userMoney.put(uuid, cashSet);
         return cashSet;
     }
@@ -30,7 +30,7 @@ public interface CashLib {
      * @param uuid
      * @return
      */
-    static int cashRemove(UUID uuid) {
+    public static int cashRemove(UUID uuid) {
         return userMoney.remove(uuid);
     }
 
@@ -39,7 +39,7 @@ public interface CashLib {
      * @param uuid
      * @return
      */
-    static int getCash(UUID uuid) {
+    public static int getCash(UUID uuid) {
         Integer userCash = userMoney.get(uuid);
         return userCash != null ? userCash : 0;
     }
@@ -49,7 +49,7 @@ public interface CashLib {
      * @param uuid
      * @param cashSubtract
      */
-    static void cashSubtract(UUID uuid, Integer cashSubtract) {
+    public static void cashSubtract(UUID uuid, Integer cashSubtract) {
         int getUserCash = getCash(uuid) - cashSubtract;
         userMoney.put(uuid, getUserCash);
     }
@@ -59,7 +59,7 @@ public interface CashLib {
      * @param uuid
      * @param cashAdd
      */
-    static void cashAdd(UUID uuid, Integer cashAdd) {
+    public static void cashAdd(UUID uuid, Integer cashAdd) {
         int getUserCash = getCash(uuid) + cashAdd;
         userMoney.put(uuid, getUserCash);
     }
@@ -67,14 +67,14 @@ public interface CashLib {
     /**
      * 유저의 캐시 데이터를 가져옵니다.
      */
-    static void getCashData() {
-        for (Player player : PlayerInterface.onlinePlayers) {
+    public static void getCashData() {
+        for (Player player : PlayerManager.onlinePlayers) {
             YamlConfiguration config = UserConfig.getPlayerConfig(player);
             UUID uuid = player.getUniqueId();
             userMoney.put(uuid, config.getInt("cash"));
         }
 
-        for (OfflinePlayer player : PlayerInterface.offlinePlayers) {
+        for (OfflinePlayer player : PlayerManager.offlinePlayers) {
             if (!player.isOnline()) {
                 YamlConfiguration config = UserConfig.getPlayerConfig(player);
                 UUID uuid = player.getUniqueId();
