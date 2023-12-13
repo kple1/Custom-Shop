@@ -1,14 +1,13 @@
 package io.plugin.customShop.listeners;
 
+import io.plugin.customShop.Main;
+import io.plugin.customShop.config.UserConfig;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static io.plugin.customShop.Main.title;
 import static io.plugin.customShop.utils.ItemBuild.ecoItem;
@@ -27,6 +26,8 @@ public class ServiceChangeEconomy implements Listener {
             {
                 put("changeEcoSetting", "Money");
                 player.sendMessage(title + Color.chat("&6Money&f로 변경되었습니다."));
+                //Main.getPlugin().getConfig().set();
+                Main.getPlugin().saveConfig();
             }
             else if (ShopMainCenter.changeEcoSetting.get("changeEcoSetting").equals("Money"))
             {

@@ -50,15 +50,12 @@ public class CommandCenter implements CommandExecutor, TabExecutor {
         }
 
         final List<String> tabList = new ArrayList<>();
+        String[] tabStrings = {"생성", "열기", "편집", "목록", "삭제", "캐쉬발급", "dataSave"};
 
         if (args.length == 1) {
-            tabList.add("생성");
-            tabList.add("열기");
-            tabList.add("편집");
-            tabList.add("목록");
-            tabList.add("삭제");
-            tabList.add("캐쉬발급");
-            tabList.add("dataSave");
+            for (int i = 0; i < 7; i++) {
+                tabList.add(i, tabStrings[i]);
+            }
             return StringUtil.copyPartialMatches(args[0], tabList, new ArrayList<>());
         }
         return tabList;

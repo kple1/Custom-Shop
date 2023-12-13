@@ -7,7 +7,6 @@ import io.plugin.customShop.bStats.Metrics;
 import io.plugin.customShop.command.CommandCenter;
 import io.plugin.customShop.listeners.*;
 import io.plugin.customShop.utils.Color;
-import io.plugin.customShop.utils.PlayerInterface;
 import io.plugin.customShop.utils.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

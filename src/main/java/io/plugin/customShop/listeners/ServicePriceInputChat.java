@@ -24,18 +24,15 @@ public class ServicePriceInputChat implements Listener {
         String message = event.getMessage();
 
         if (!message.isEmpty() || !isNumeric(message)) {
-
             boolean found = false;
             for (String list : configSection("상점목록").getKeys(false)) {
                 String getShopName = plugin.getConfig().getString("상점목록." + list);
                 plugin.getConfig().set(getShopName + "." + ServiceItemSettingInvOpen.saveSlot.get("saveSlot") + "." + changeSellOrBuySetting.get("changePriceSetting"), message);
                 plugin.getConfig().set(getShopName + "." + ServiceItemSettingInvOpen.saveSlot.get("saveSlot") + ".item", ItemBuild.serviceItemSettingInvOpen_getLore_add(message));
                 plugin.saveConfig();
-
                 found = true;
                 break;
             }
-
             if (found) {
                 InventoryManager.itemFix(getMessagePlayer);
                 getMessagePlayer.sendMessage(title + "가격설정이 완료되었습니다!");
