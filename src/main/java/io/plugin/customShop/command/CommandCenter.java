@@ -1,6 +1,6 @@
 package io.plugin.customShop.command;
 
-import io.plugin.customShop.Cash.Command.CashIssued;
+import io.plugin.customShop.cash.Command.CashIssued;
 import io.plugin.customShop.Main;
 import io.plugin.customShop.utils.MessageManager;
 import org.bukkit.command.Command;

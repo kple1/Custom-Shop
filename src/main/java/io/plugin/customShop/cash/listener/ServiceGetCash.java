@@ -1,6 +1,6 @@
-package io.plugin.customShop.Cash.listener;
+package io.plugin.customShop.cash.listener;
 
-import io.plugin.customShop.Cash.utils.CashLib;
+import io.plugin.customShop.cash.utils.CashLib;
 import io.plugin.customShop.Main;
 import io.plugin.customShop.utils.Color;
 import org.bukkit.entity.Player;

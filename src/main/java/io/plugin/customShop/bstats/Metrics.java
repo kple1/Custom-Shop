@@ -1,4 +1,4 @@
-package io.plugin.customShop.bStats;
+package io.plugin.customShop.bstats;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

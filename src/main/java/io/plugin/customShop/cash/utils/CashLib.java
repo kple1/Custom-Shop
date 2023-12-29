@@ -1,4 +1,4 @@
-package io.plugin.customShop.Cash.utils;
+package io.plugin.customShop.cash.utils;
 
 import io.plugin.customShop.config.UserConfig;
 import io.plugin.customShop.utils.PlayerManager;
